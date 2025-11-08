@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
+    text-align: center;
 }
 
 #header-text {
@@ -25,11 +26,27 @@ body {
     margin-bottom: 0.5rem;
 }
 
+
+#options-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+#options-wrapper > label {
+    user-select: none;
+    color: white;
+    font-weight: bold;
+}
+
+#board, #player-hand {
+    margin-bottom: 1rem;
+}
+
 .hand {
     display: flex;
     gap: 1rem;
     background-color: ghostwhite;
-    padding-bottom: 1em;
     padding-left: 1em;
     padding-right: 1em;
     border-radius: 1rem;
@@ -40,12 +57,18 @@ body {
 }
 
 .card {
-    font-size: 8em;
+    font-size: 7em;
     user-select: none;
+    padding-bottom: 0.1em;
+}
+
+.card.simple-card {
+    font-size: 4em;
+    padding-bottom: 0em;
 }
 
 .hearts, .diamonds {
-    color: red;
+    color: rgb(221, 58, 58);
 }
 .spades, .clubs {
     color: black;
