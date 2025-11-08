@@ -14,12 +14,6 @@ console.log('Poker time');
  * - Add toggle for hand display (unicode vs simple)
  */
 
-// Create and display cards using both numeric values and Unicode symbols
-
-function createCard(rank, suit) {
-    return { rank, suit };
-}
-
 function buildCardElement(card) {
     // Create a span element for the card, styling depending on display mode toggle
     if (getDisplayModeToggle().checked) {
