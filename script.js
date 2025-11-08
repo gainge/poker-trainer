@@ -1,5 +1,5 @@
 import {getNewDeck, getUnicodeCard} from './util.js';
-import {getDisplayModeToggle, getPlayerHandElement, getBoardElement} from './dom.js';
+import {getDisplayModeToggle, getPlayerHandElement, getBoardElement} from './globalDOM.js';
 import {SIMPLE_RANK_DISPLAY, SUIT_SYMBOLS, SUIT_CLASS_MAP} from './constants.js';
 
 console.log('Poker time');
