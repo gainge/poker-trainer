@@ -21,3 +21,35 @@ export const SUITS = {
     CLUBS: 3,
     SPADES: 4
 };
+
+export const HAND_RANKS = {
+    HIGH_CARD: 1,
+    ONE_PAIR: 2,
+    TWO_PAIR: 3,
+    THREE_OF_A_KIND: 4,
+    STRAIGHT: 5,
+    FLUSH: 6,
+    FULL_HOUSE: 7,
+    FOUR_OF_A_KIND: 8,
+    STRAIGHT_FLUSH: 9,
+};
+
+// Concept of a hand
+export class Hand {
+    constructor(name, card1, card2) {
+        this.name = name;
+        this.cards = [card1, card2];
+    }
+
+    getCards() {
+        return this.cards;
+    }
+}
+
+export class HandResult {
+    constructor(hand, rank, description) {
+        this.hand = hand;
+        this.rank = rank;
+        this.description = description;
+    }
+}

@@ -1,4 +1,4 @@
-import {BASE_DECK, CARD_SET, CARD_BACK} from './constants.js';
+import {BASE_DECK, CARD_SET, CARD_BACK, SIMPLE_RANK_DISPLAY, SUIT_SYMBOLS} from './constants.js';
 
 export function getNewDeck() {
     return shuffleDeck([...BASE_DECK]);
@@ -15,4 +15,57 @@ function shuffleDeck(deck) {
 
 export function getUnicodeCard(card) {
     return CARD_SET[card.rank][card.suit] || CARD_BACK;
+}
+
+export function getSimpleCardDisplay(card) {
+    return `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
+}
+
+export function printHand(hand) {
+    return hand.map(card => getSimpleCardDisplay(card)).join(' ');
+}
+
+export function combinations(items, k) {
+    const results = [];
+
+  /**
+   * Based Gemini converting my initial recursive solution into a backtracking approach
+   * Helper function to perform the recursion (backtracking)
+   * @param startIndex - The index in 'items' to start considering
+   * @param currentCombo - The current combination being built
+   */
+  function backtrack(startIndex, currentCombo) {
+    if (currentCombo.length === k) {
+      results.push([...currentCombo]);
+      return;
+    }
+
+    if (startIndex === items.length) {
+      return;
+    }
+
+    for (let i = startIndex; i < items.length; i++) {
+      const currentItem = items[i];
+      currentCombo.push(currentItem);
+      backtrack(i + 1, currentCombo);
+      currentCombo.pop();
+    }
+  }
+
+  // Start the process
+  backtrack(0, []);
+  return results;
+}
+
+
+export function getWinningHands(board, playerHands) {
+    // Placeholder for hand ranking logic
+    // This function would analyze the board and players' hands to determine the winner(s)
+    return [];
+}
+
+export function evaluateHand(board, hand) {
+    // Placeholder for hand evaluation logic
+    // This function would return a score or rank for the given hand combined with the board
+    return 0;
 }

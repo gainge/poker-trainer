@@ -1,4 +1,4 @@
-import {RANKS, SUITS} from './model.js';
+import {RANKS, SUITS, HAND_RANKS} from './model.js';
 
 // Let's actually add a more rich card display leveraging the full unicode characters
 export const CARD_BACK = '🂠';
@@ -180,4 +180,16 @@ export const SUIT_CLASS_MAP = {
     [SUITS.DIAMONDS]: 'diamonds',
     [SUITS.CLUBS]: 'clubs',
     [SUITS.SPADES]: 'spades'
+};
+
+export const HAND_RANK_NAMES = {
+    [HAND_RANKS.HIGH_CARD]: 'High Card',
+    [HAND_RANKS.ONE_PAIR]: 'Pair',
+    [HAND_RANKS.TWO_PAIR]: 'Two Pair',
+    [HAND_RANKS.THREE_OF_A_KIND]: 'Three of a Kind',
+    [HAND_RANKS.STRAIGHT]: 'Straight',
+    [HAND_RANKS.FLUSH]: 'Flush',
+    [HAND_RANKS.FULL_HOUSE]: 'Full House',
+    [HAND_RANKS.FOUR_OF_A_KIND]: 'Four of a Kind',
+    [HAND_RANKS.STRAIGHT_FLUSH]: 'Straight Flush',
 };

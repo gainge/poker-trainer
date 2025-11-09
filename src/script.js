@@ -1,6 +1,6 @@
-import {getNewDeck, getUnicodeCard} from './util.js';
+import {getNewDeck, getUnicodeCard, getSimpleCardDisplay} from './util.js';
 import {getDisplayModeToggle, getPlayerHandElement, getBoardElement} from './globalDOM.js';
-import {SIMPLE_RANK_DISPLAY, SUIT_SYMBOLS, SUIT_CLASS_MAP} from './constants.js';
+import {SUIT_CLASS_MAP} from './constants.js';
 
 console.log('Poker time');
 
@@ -25,7 +25,7 @@ function buildCardElement(card) {
     } else {
         const simpleSpan = document.createElement('span');
         simpleSpan.classList.add('card');
-        simpleSpan.textContent = `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
+        simpleSpan.textContent = getSimpleCardDisplay(card);
         simpleSpan.classList.add(SUIT_CLASS_MAP[card.suit]);
         simpleSpan.classList.add('simple-card');
         return simpleSpan;
