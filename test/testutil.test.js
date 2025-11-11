@@ -27,7 +27,6 @@ export function logError(message) {
     console.log(asRed(`ERROR: ${message}`));
 }
 
-
 export function expect(condition, message) {
     if (!condition) {
         throw new Error(message || 'Expectation failed');

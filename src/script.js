@@ -45,8 +45,8 @@ getDisplayModeToggle().addEventListener('change', (event) => {
     playerHandElement.innerHTML = '';
     boardElement.innerHTML = '';
     // Re-add cards in selected display mode
-    hand.forEach(card => addCardToHand(card, playerHandElement));
-    board.forEach(card => addCardToHand(card, boardElement));
+    hand.forEach((card) => addCardToHand(card, playerHandElement));
+    board.forEach((card) => addCardToHand(card, boardElement));
 });
 
 // Set up some initial state for testing
@@ -55,6 +55,6 @@ const hand = [deck.pop(), deck.pop()];
 const board = [deck.pop(), deck.pop(), deck.pop()];
 
 const playerHandElement = getPlayerHandElement();
-hand.forEach(card => addCardToHand(card, playerHandElement));
+hand.forEach((card) => addCardToHand(card, playerHandElement));
 const boardElement = getBoardElement();
-board.forEach(card => addCardToHand(card, boardElement));
+board.forEach((card) => addCardToHand(card, boardElement));

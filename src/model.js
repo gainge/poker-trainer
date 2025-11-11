@@ -12,17 +12,33 @@ export const RANKS = {
     JACK: 11,
     QUEEN: 12,
     KING: 13,
-    ACE: 14
+    ACE: 14,
 };
+
+export const RANKS_DESCENDING = [
+    RANKS.ACE,
+    RANKS.KING,
+    RANKS.QUEEN,
+    RANKS.JACK,
+    RANKS.TEN,
+    RANKS.NINE,
+    RANKS.EIGHT,
+    RANKS.SEVEN,
+    RANKS.SIX,
+    RANKS.FIVE,
+    RANKS.FOUR,
+    RANKS.THREE,
+    RANKS.TWO,
+];
 
 export const SUITS = {
     HEARTS: 1,
     DIAMONDS: 2,
     CLUBS: 3,
-    SPADES: 4
+    SPADES: 4,
 };
 
-export const HAND_RANKS = {
+export const HAND_TYPE = {
     HIGH_CARD: 1,
     ONE_PAIR: 2,
     TWO_PAIR: 3,
@@ -34,11 +50,24 @@ export const HAND_RANKS = {
     STRAIGHT_FLUSH: 9,
 };
 
+export class Card {
+    constructor(rank, suit) {
+        this.rank = rank;
+        this.suit = suit;
+    }
+    getRank() {
+        return this.rank;
+    }
+    getSuit() {
+        return this.suit;
+    }
+}
+
 // Concept of a hand
 export class Hand {
-    constructor(name, card1, card2) {
-        this.name = name;
-        this.cards = [card1, card2];
+    constructor(playerName, cards) {
+        this.playerName = playerName;
+        this.cards = cards;
     }
 
     getCards() {
@@ -47,9 +76,10 @@ export class Hand {
 }
 
 export class HandResult {
-    constructor(hand, rank, description) {
+    constructor(hand, handType, rank1, rank2 = undefined) {
         this.hand = hand;
-        this.rank = rank;
-        this.description = description;
+        this.handType = handType;
+        this.rank1 = rank1;
+        this.rank2 = rank2;
     }
 }

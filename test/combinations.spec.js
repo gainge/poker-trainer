@@ -145,13 +145,7 @@ it('should generate correct combinations when dealing with objects', () => {
 });
 
 it('should generate correct combinations in complex cases dealing with objects', () => {
-    const items = [
-        {name: 'Alice'},
-        {name: 'Bob'},
-        {name: 'Charlie'},
-        {name: 'Diana'},
-        {name: 'Susan'},
-    ];
+    const items = [{name: 'Alice'}, {name: 'Bob'}, {name: 'Charlie'}, {name: 'Diana'}, {name: 'Susan'}];
     const result = combinations(items, 3);
     const expected = [
         [{name: 'Alice'}, {name: 'Bob'}, {name: 'Charlie'}],
