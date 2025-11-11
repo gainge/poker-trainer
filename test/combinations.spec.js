@@ -1,4 +1,4 @@
-import {it, expect} from "./testutil.js"
+import {it, expect} from "./testutil.test.js"
 import { combinations } from "../src/util.js";
 
 it('should generate correct combinations of 2 from [1,2,3]', () => {
