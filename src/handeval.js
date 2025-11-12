@@ -67,7 +67,33 @@ export function getStraightFlushHand(handDataMap) {
 }
 
 export function getFourOfAKindHand(handDataMap) {
-    // Placeholder for four of a kind detection logic
+    const resultCards = [];
+    let topKicker = undefined;
+
+    // Iterate over ranks in descending order to find four of a kind with top kicker
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length === 4 && resultCards.length === 0) {
+            resultCards.push(...cardsAtRank);
+        } else if (cardsAtRank.length > 0) {
+            if (topKicker === undefined) {
+                topKicker = cardsAtRank[0]; // Store top kicker
+            }
+        }
+    }
+
+    if (topKicker !== undefined && resultCards.length === 4) {
+        resultCards.push(topKicker);
+    }
+
+    if (resultCards.length >= 4) {
+        return new HandResult(
+            new Hand('TBD', resultCards.slice(0, 5)),
+            HAND_TYPE.FOUR_OF_A_KIND,
+            resultCards[0].rank,
+            resultCards[4]?.rank
+        );
+    }
     return undefined;
 }
 
