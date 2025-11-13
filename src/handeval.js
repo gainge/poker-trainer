@@ -124,6 +124,33 @@ export function getFullHouseHand(handDataMap) {
 }
 
 export function getFlushHand(handDataMap) {
+    // We'll early return for first flush found
+    const suits = [SUITS.HEARTS, SUITS.DIAMONDS, SUITS.CLUBS, SUITS.SPADES];
+    const suitCountMap = {};
+    for (const suit of suits) {
+        suitCountMap[suit] = 0;
+    }
+    const suitHighCardMap = {};
+
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        for (const card of cardsAtRank) {
+            suitCountMap[card.suit]++;
+            if (!(card.suit in suitHighCardMap)) {
+                suitHighCardMap[card.suit] = [];
+            }
+            suitHighCardMap[card.suit].push(card);
+        }
+    }
+
+    // Assume only one flush possible (7 card hand), return first found
+    for (const suit of suits) {
+        if (suitCountMap[suit] >= 5) {
+            const flushCards = suitHighCardMap[suit].slice(0, 5);
+            return new HandResult(new Hand('TBD', flushCards), HAND_TYPE.FLUSH, flushCards[0].rank);
+        }
+    }
+
     // Placeholder for flush detection logic
     return undefined;
 }
