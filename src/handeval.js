@@ -210,6 +210,40 @@ export function getThreeOfAKindHand(handDataMap) {
 }
 
 export function getTwoPairHand(handDataMap) {
+    const highPair = [];
+    const lowPair = [];
+    let kicker = undefined;
+
+    // Iterate over ranks in descending order to find two pairs
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length >= 2) {
+            if (highPair.length === 0) {
+                highPair.push(...cardsAtRank.slice(0, 2));
+            } else if (lowPair.length === 0) {
+                lowPair.push(...cardsAtRank.slice(0, 2));
+            } else if (kicker === undefined) {
+                kicker = cardsAtRank[0];
+            }
+        }
+        if (highPair.length === 2 && lowPair.length === 2 && kicker !== undefined) {
+            break;
+        }
+    }
+
+    if (highPair.length === 2 && lowPair.length === 2) {
+        const resultCards = [...highPair, ...lowPair];
+        if (kicker !== undefined) {
+            resultCards.push(kicker);
+        }
+        return new HandResult(
+            new Hand('TBD', resultCards.slice(0, 5)),
+            HAND_TYPE.TWO_PAIR,
+            highPair[0].rank,
+            lowPair[0].rank
+        );
+    }
+
     // Placeholder for two pair detection logic
     return undefined;
 }

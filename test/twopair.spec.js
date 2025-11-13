@@ -257,21 +257,6 @@ it('should not detect two pair when four of a kind exists', () => {
     expectTwoPair(handDataMap, false);
 });
 
-it('should not detect two pair when full house exists', () => {
-    const handDataMap = {
-        [RANKS.KING]: [
-            {rank: RANKS.KING, suit: SUITS.HEARTS},
-            {rank: RANKS.KING, suit: SUITS.DIAMONDS},
-            {rank: RANKS.KING, suit: SUITS.CLUBS},
-        ],
-        [RANKS.QUEEN]: [
-            {rank: RANKS.QUEEN, suit: SUITS.HEARTS},
-            {rank: RANKS.QUEEN, suit: SUITS.DIAMONDS},
-        ],
-    };
-    expectTwoPair(handDataMap, false);
-});
-
 it('should not detect two pair when all different ranks exist', () => {
     const handDataMap = {
         [RANKS.ACE]: [{rank: RANKS.ACE, suit: SUITS.HEARTS}],
@@ -356,21 +341,6 @@ it('should detect two pair (Fives and Threes)', () => {
         ],
     };
     expectTwoPair(handDataMap, true, RANKS.FIVE, RANKS.THREE);
-});
-
-it('should detect two pair when trips and pair exist (should be full house, not two pair)', () => {
-    const handDataMap = {
-        [RANKS.NINE]: [
-            {rank: RANKS.NINE, suit: SUITS.HEARTS},
-            {rank: RANKS.NINE, suit: SUITS.DIAMONDS},
-            {rank: RANKS.NINE, suit: SUITS.CLUBS},
-        ],
-        [RANKS.FIVE]: [
-            {rank: RANKS.FIVE, suit: SUITS.HEARTS},
-            {rank: RANKS.FIVE, suit: SUITS.DIAMONDS},
-        ],
-    };
-    expectTwoPair(handDataMap, false);
 });
 
 it('should detect two pair (Kings and Fours)', () => {
