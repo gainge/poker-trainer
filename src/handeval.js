@@ -203,12 +203,7 @@ export function getThreeOfAKindHand(handDataMap) {
         // Add top 2 kickers
         kickerCards[0] && resultCards.push(kickerCards[0]);
         kickerCards[1] && resultCards.push(kickerCards[1]);
-        return new HandResult(
-            new Hand('TBD', resultCards.slice(0, 5)),
-            HAND_TYPE.THREE_OF_A_KIND,
-            resultCards[0].rank,
-            resultCards[3]?.rank
-        );
+        return new HandResult(new Hand('TBD', resultCards.slice(0, 5)), HAND_TYPE.THREE_OF_A_KIND, resultCards[0].rank);
     }
 
     return undefined;
