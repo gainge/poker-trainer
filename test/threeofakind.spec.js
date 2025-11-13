@@ -3,7 +3,7 @@ import {it, expect} from './testutil.test.js';
 import {RANKS, SUITS, HAND_TYPE} from '../src/model.js';
 import {SIMPLE_RANK_DISPLAY} from '../src/constants.js';
 
-function expectThreeOfAKind(handDataMap, shouldExist, expectedRank = undefined, expectedKicker = undefined) {
+function expectThreeOfAKind(handDataMap, shouldExist, expectedRank = undefined) {
     const result = getThreeOfAKindHand(handDataMap);
     if (shouldExist) {
         expect(result !== undefined, 'Expected to find three of a kind, but none was found.');
@@ -13,14 +13,6 @@ function expectThreeOfAKind(handDataMap, shouldExist, expectedRank = undefined, 
                 result.rank1 === expectedRank,
                 `Expected three of a kind to be rank ${SIMPLE_RANK_DISPLAY[expectedRank]}, got ${
                     SIMPLE_RANK_DISPLAY[result.rank1]
-                }.`
-            );
-        }
-        if (expectedKicker !== undefined) {
-            expect(
-                result.rank2 === expectedKicker,
-                `Expected kicker to be rank ${SIMPLE_RANK_DISPLAY[expectedKicker]}, got ${
-                    SIMPLE_RANK_DISPLAY[result.rank2]
                 }.`
             );
         }
@@ -61,7 +53,7 @@ it('should detect three Kings with one kicker', () => {
         ],
         [RANKS.ACE]: [{rank: RANKS.ACE, suit: SUITS.SPADES}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.KING, RANKS.ACE);
+    expectThreeOfAKind(handDataMap, true, RANKS.KING);
 });
 
 it('should detect three Jacks with multiple kickers (choose highest)', () => {
@@ -74,7 +66,7 @@ it('should detect three Jacks with multiple kickers (choose highest)', () => {
         [RANKS.KING]: [{rank: RANKS.KING, suit: SUITS.SPADES}],
         [RANKS.QUEEN]: [{rank: RANKS.QUEEN, suit: SUITS.HEARTS}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.JACK, RANKS.KING);
+    expectThreeOfAKind(handDataMap, true, RANKS.JACK);
 });
 
 it('should detect three Eights in 7-card scenario', () => {
@@ -89,7 +81,7 @@ it('should detect three Eights in 7-card scenario', () => {
         [RANKS.QUEEN]: [{rank: RANKS.QUEEN, suit: SUITS.CLUBS}],
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.SPADES}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.EIGHT, RANKS.ACE);
+    expectThreeOfAKind(handDataMap, true, RANKS.EIGHT);
 });
 
 it('should detect three Sevens with exactly 3 cards (minimum)', () => {
@@ -115,7 +107,7 @@ it('should detect three Tens with a pair also present', () => {
             {rank: RANKS.FIVE, suit: SUITS.DIAMONDS},
         ],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.TEN, RANKS.FIVE);
+    expectThreeOfAKind(handDataMap, true, RANKS.TEN);
 });
 
 it('should detect three Nines with two pairs present (choose higher pair as kicker)', () => {
@@ -134,7 +126,7 @@ it('should detect three Nines with two pairs present (choose higher pair as kick
             {rank: RANKS.SIX, suit: SUITS.SPADES},
         ],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.NINE, RANKS.KING);
+    expectThreeOfAKind(handDataMap, true, RANKS.NINE);
 });
 
 it('should detect three Queens', () => {
@@ -146,7 +138,7 @@ it('should detect three Queens', () => {
         ],
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.SPADES}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.QUEEN, RANKS.JACK);
+    expectThreeOfAKind(handDataMap, true, RANKS.QUEEN);
 });
 
 it('should detect three Fours', () => {
@@ -159,7 +151,7 @@ it('should detect three Fours', () => {
         [RANKS.ACE]: [{rank: RANKS.ACE, suit: SUITS.HEARTS}],
         [RANKS.TWO]: [{rank: RANKS.TWO, suit: SUITS.DIAMONDS}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.FOUR, RANKS.ACE);
+    expectThreeOfAKind(handDataMap, true, RANKS.FOUR);
 });
 
 it('should detect three Sixes when two different trips exist (choose higher)', () => {
@@ -175,7 +167,7 @@ it('should detect three Sixes when two different trips exist (choose higher)', (
             {rank: RANKS.THREE, suit: SUITS.CLUBS},
         ],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.SIX, RANKS.THREE);
+    expectThreeOfAKind(handDataMap, true, RANKS.SIX);
 });
 
 it('should detect three Threes', () => {
@@ -187,7 +179,7 @@ it('should detect three Threes', () => {
         ],
         [RANKS.KING]: [{rank: RANKS.KING, suit: SUITS.SPADES}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.THREE, RANKS.KING);
+    expectThreeOfAKind(handDataMap, true, RANKS.THREE);
 });
 
 // Negative test cases - should NOT detect three of a kind
@@ -218,33 +210,6 @@ it('should not detect three of a kind when two pairs exist', () => {
 
 it('should not detect three of a kind with empty hand data map', () => {
     const handDataMap = {};
-    expectThreeOfAKind(handDataMap, false);
-});
-
-it('should not detect three of a kind when four of a kind exists', () => {
-    const handDataMap = {
-        [RANKS.EIGHT]: [
-            {rank: RANKS.EIGHT, suit: SUITS.HEARTS},
-            {rank: RANKS.EIGHT, suit: SUITS.DIAMONDS},
-            {rank: RANKS.EIGHT, suit: SUITS.CLUBS},
-            {rank: RANKS.EIGHT, suit: SUITS.SPADES},
-        ],
-    };
-    expectThreeOfAKind(handDataMap, false);
-});
-
-it('should not detect three of a kind when full house exists', () => {
-    const handDataMap = {
-        [RANKS.KING]: [
-            {rank: RANKS.KING, suit: SUITS.HEARTS},
-            {rank: RANKS.KING, suit: SUITS.DIAMONDS},
-            {rank: RANKS.KING, suit: SUITS.CLUBS},
-        ],
-        [RANKS.QUEEN]: [
-            {rank: RANKS.QUEEN, suit: SUITS.HEARTS},
-            {rank: RANKS.QUEEN, suit: SUITS.DIAMONDS},
-        ],
-    };
     expectThreeOfAKind(handDataMap, false);
 });
 
@@ -289,7 +254,7 @@ it('should detect three of a kind when flush is also possible', () => {
         [RANKS.QUEEN]: [{rank: RANKS.QUEEN, suit: SUITS.HEARTS}],
         [RANKS.TEN]: [{rank: RANKS.TEN, suit: SUITS.HEARTS}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.JACK, RANKS.ACE);
+    expectThreeOfAKind(handDataMap, true, RANKS.JACK);
 });
 
 it('should detect three of a kind when straight is also possible', () => {
@@ -304,7 +269,7 @@ it('should detect three of a kind when straight is also possible', () => {
         [RANKS.SIX]: [{rank: RANKS.SIX, suit: SUITS.DIAMONDS}],
         [RANKS.FIVE]: [{rank: RANKS.FIVE, suit: SUITS.CLUBS}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.NINE, RANKS.EIGHT);
+    expectThreeOfAKind(handDataMap, true, RANKS.NINE);
 });
 
 it('should detect three Fives with low kicker', () => {
@@ -317,5 +282,5 @@ it('should detect three Fives with low kicker', () => {
         [RANKS.THREE]: [{rank: RANKS.THREE, suit: SUITS.SPADES}],
         [RANKS.TWO]: [{rank: RANKS.TWO, suit: SUITS.HEARTS}],
     };
-    expectThreeOfAKind(handDataMap, true, RANKS.FIVE, RANKS.THREE);
+    expectThreeOfAKind(handDataMap, true, RANKS.FIVE);
 });

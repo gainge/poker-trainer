@@ -183,7 +183,34 @@ export function getStraightHand(handDataMap) {
 }
 
 export function getThreeOfAKindHand(handDataMap) {
-    // Placeholder for three of a kind detection logic
+    // Return the highest three of a kind found
+    let resultCards = [];
+    let kickerCards = [];
+
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length >= 3 && resultCards.length === 0) {
+            resultCards = cardsAtRank.slice(0, 3);
+        } else if (cardsAtRank.length > 0) {
+            kickerCards.push(...cardsAtRank);
+        }
+        if (resultCards.length === 3 && kickerCards.length >= 2) {
+            break;
+        }
+    }
+
+    if (resultCards.length === 3) {
+        // Add top 2 kickers
+        kickerCards[0] && resultCards.push(kickerCards[0]);
+        kickerCards[1] && resultCards.push(kickerCards[1]);
+        return new HandResult(
+            new Hand('TBD', resultCards.slice(0, 5)),
+            HAND_TYPE.THREE_OF_A_KIND,
+            resultCards[0].rank,
+            resultCards[3]?.rank
+        );
+    }
+
     return undefined;
 }
 
