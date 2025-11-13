@@ -156,6 +156,28 @@ export function getFlushHand(handDataMap) {
 }
 
 export function getStraightHand(handDataMap) {
+    const cardsInStraight = [];
+
+    for (const rank of [...RANKS_DESCENDING, RANKS.ACE]) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length > 0) {
+            cardsInStraight.push(cardsAtRank[0]); // Just need one card of that rank
+            if (cardsInStraight.length >= 5) {
+                break;
+            }
+        } else {
+            cardsInStraight.length = 0;
+        }
+    }
+
+    if (cardsInStraight.length >= 5) {
+        return new HandResult(
+            new Hand('TBD', cardsInStraight.slice(0, 5)),
+            HAND_TYPE.STRAIGHT,
+            cardsInStraight[0].rank
+        );
+    }
+
     // Placeholder for straight detection logic
     return undefined;
 }
