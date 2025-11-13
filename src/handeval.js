@@ -98,6 +98,27 @@ export function getFourOfAKindHand(handDataMap) {
 }
 
 export function getFullHouseHand(handDataMap) {
+    let threeOfAKindRank = undefined;
+    let pairRank = undefined;
+
+    // Find the highest three of a kind and pair
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length >= 3 && threeOfAKindRank === undefined) {
+            threeOfAKindRank = rank;
+        } else if (cardsAtRank.length >= 2 && rank !== threeOfAKindRank && pairRank === undefined) {
+            pairRank = rank;
+        }
+        if (threeOfAKindRank !== undefined && pairRank !== undefined) {
+            break;
+        }
+    }
+
+    if (threeOfAKindRank !== undefined && pairRank !== undefined) {
+        const resultCards = [...handDataMap[threeOfAKindRank].slice(0, 3), ...handDataMap[pairRank].slice(0, 2)];
+        return new HandResult(new Hand('TBD', resultCards), HAND_TYPE.FULL_HOUSE, threeOfAKindRank, pairRank);
+    }
+
     // Placeholder for full house detection logic
     return undefined;
 }
