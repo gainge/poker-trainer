@@ -277,6 +277,19 @@ export function getOnePairHand(handDataMap) {
 }
 
 export function getHighCardHand(handDataMap) {
-    // Placeholder for high card detection logic
+    const resultCards = [];
+
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        resultCards.push(...cardsAtRank);
+        if (resultCards.length >= 5) {
+            break;
+        }
+    }
+
+    if (resultCards.length >= 5) {
+        return new HandResult(new Hand('TBD', resultCards.slice(0, 5)), HAND_TYPE.HIGH_CARD, resultCards[0].rank);
+    }
+
     return undefined;
 }
