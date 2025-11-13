@@ -249,7 +249,30 @@ export function getTwoPairHand(handDataMap) {
 }
 
 export function getOnePairHand(handDataMap) {
-    // Placeholder for one pair detection logic
+    // Return the highest pair found
+    let resultCards = [];
+    let kickerCards = [];
+
+    for (const rank of RANKS_DESCENDING) {
+        const cardsAtRank = handDataMap[rank] ?? [];
+        if (cardsAtRank.length >= 2 && resultCards.length === 0) {
+            resultCards = cardsAtRank.slice(0, 2);
+        } else if (cardsAtRank.length > 0) {
+            kickerCards.push(...cardsAtRank);
+        }
+        if (resultCards.length === 2 && kickerCards.length >= 3) {
+            break;
+        }
+    }
+
+    if (resultCards.length === 2) {
+        // Add top 3 kickers
+        kickerCards[0] && resultCards.push(kickerCards[0]);
+        kickerCards[1] && resultCards.push(kickerCards[1]);
+        kickerCards[2] && resultCards.push(kickerCards[2]);
+        return new HandResult(new Hand('TBD', resultCards.slice(0, 5)), HAND_TYPE.ONE_PAIR, resultCards[0].rank);
+    }
+
     return undefined;
 }
 

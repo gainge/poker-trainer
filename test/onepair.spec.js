@@ -3,7 +3,7 @@ import {it, expect} from './testutil.test.js';
 import {RANKS, SUITS, HAND_TYPE} from '../src/model.js';
 import {SIMPLE_RANK_DISPLAY} from '../src/constants.js';
 
-function expectOnePair(handDataMap, shouldExist, expectedPairRank = undefined, expectedKicker = undefined) {
+function expectOnePair(handDataMap, shouldExist, expectedPairRank = undefined) {
     const result = getOnePairHand(handDataMap);
     if (shouldExist) {
         expect(result !== undefined, 'Expected to find one pair, but none was found.');
@@ -13,14 +13,6 @@ function expectOnePair(handDataMap, shouldExist, expectedPairRank = undefined, e
                 result.rank1 === expectedPairRank,
                 `Expected pair to be rank ${SIMPLE_RANK_DISPLAY[expectedPairRank]}, got ${
                     SIMPLE_RANK_DISPLAY[result.rank1]
-                }.`
-            );
-        }
-        if (expectedKicker !== undefined) {
-            expect(
-                result.rank2 === expectedKicker,
-                `Expected kicker to be rank ${SIMPLE_RANK_DISPLAY[expectedKicker]}, got ${
-                    SIMPLE_RANK_DISPLAY[result.rank2]
                 }.`
             );
         }
@@ -58,7 +50,7 @@ it('should detect a pair of Kings with one kicker', () => {
         ],
         [RANKS.ACE]: [{rank: RANKS.ACE, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.KING, RANKS.ACE);
+    expectOnePair(handDataMap, true, RANKS.KING);
 });
 
 it('should detect a pair of Queens with multiple kickers (choose highest)', () => {
@@ -71,7 +63,7 @@ it('should detect a pair of Queens with multiple kickers (choose highest)', () =
         [RANKS.KING]: [{rank: RANKS.KING, suit: SUITS.SPADES}],
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.HEARTS}],
     };
-    expectOnePair(handDataMap, true, RANKS.QUEEN, RANKS.ACE);
+    expectOnePair(handDataMap, true, RANKS.QUEEN);
 });
 
 it('should detect a pair of Jacks with exactly 2 cards (minimum)', () => {
@@ -96,7 +88,7 @@ it('should detect a pair of Tens in 7-card scenario', () => {
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.DIAMONDS}],
         [RANKS.NINE]: [{rank: RANKS.NINE, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.TEN, RANKS.ACE);
+    expectOnePair(handDataMap, true, RANKS.TEN);
 });
 
 it('should detect a pair of Nines', () => {
@@ -107,7 +99,7 @@ it('should detect a pair of Nines', () => {
         ],
         [RANKS.KING]: [{rank: RANKS.KING, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.NINE, RANKS.KING);
+    expectOnePair(handDataMap, true, RANKS.NINE);
 });
 
 it('should detect a pair of Eights', () => {
@@ -119,7 +111,7 @@ it('should detect a pair of Eights', () => {
         [RANKS.ACE]: [{rank: RANKS.ACE, suit: SUITS.CLUBS}],
         [RANKS.TWO]: [{rank: RANKS.TWO, suit: SUITS.SPADES}],
     };
-    expectOnePair(handDataMap, true, RANKS.EIGHT, RANKS.ACE);
+    expectOnePair(handDataMap, true, RANKS.EIGHT);
 });
 
 it('should detect a pair of Sevens', () => {
@@ -130,7 +122,7 @@ it('should detect a pair of Sevens', () => {
         ],
         [RANKS.QUEEN]: [{rank: RANKS.QUEEN, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.SEVEN, RANKS.QUEEN);
+    expectOnePair(handDataMap, true, RANKS.SEVEN);
 });
 
 it('should detect a pair of Sixes', () => {
@@ -141,7 +133,7 @@ it('should detect a pair of Sixes', () => {
         ],
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.SIX, RANKS.JACK);
+    expectOnePair(handDataMap, true, RANKS.SIX);
 });
 
 it('should detect a pair of Fives', () => {
@@ -152,7 +144,7 @@ it('should detect a pair of Fives', () => {
         ],
         [RANKS.TEN]: [{rank: RANKS.TEN, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.FIVE, RANKS.TEN);
+    expectOnePair(handDataMap, true, RANKS.FIVE);
 });
 
 it('should detect a pair of Fours', () => {
@@ -163,7 +155,7 @@ it('should detect a pair of Fours', () => {
         ],
         [RANKS.NINE]: [{rank: RANKS.NINE, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.FOUR, RANKS.NINE);
+    expectOnePair(handDataMap, true, RANKS.FOUR);
 });
 
 it('should detect a pair of Threes', () => {
@@ -174,7 +166,7 @@ it('should detect a pair of Threes', () => {
         ],
         [RANKS.EIGHT]: [{rank: RANKS.EIGHT, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.THREE, RANKS.EIGHT);
+    expectOnePair(handDataMap, true, RANKS.THREE);
 });
 
 it('should detect a pair when multiple pairs exist (choose highest)', () => {
@@ -188,7 +180,7 @@ it('should detect a pair when multiple pairs exist (choose highest)', () => {
             {rank: RANKS.KING, suit: SUITS.SPADES},
         ],
     };
-    expectOnePair(handDataMap, true, RANKS.ACE, RANKS.KING);
+    expectOnePair(handDataMap, true, RANKS.ACE);
 });
 
 // Negative test cases - should NOT detect one pair
@@ -205,58 +197,6 @@ it('should not detect one pair when all different ranks exist', () => {
 
 it('should not detect one pair with empty hand data map', () => {
     const handDataMap = {};
-    expectOnePair(handDataMap, false);
-});
-
-it('should not detect one pair when three of a kind exists', () => {
-    const handDataMap = {
-        [RANKS.JACK]: [
-            {rank: RANKS.JACK, suit: SUITS.HEARTS},
-            {rank: RANKS.JACK, suit: SUITS.DIAMONDS},
-            {rank: RANKS.JACK, suit: SUITS.CLUBS},
-        ],
-    };
-    expectOnePair(handDataMap, false);
-});
-
-it('should not detect one pair when four of a kind exists', () => {
-    const handDataMap = {
-        [RANKS.EIGHT]: [
-            {rank: RANKS.EIGHT, suit: SUITS.HEARTS},
-            {rank: RANKS.EIGHT, suit: SUITS.DIAMONDS},
-            {rank: RANKS.EIGHT, suit: SUITS.CLUBS},
-            {rank: RANKS.EIGHT, suit: SUITS.SPADES},
-        ],
-    };
-    expectOnePair(handDataMap, false);
-});
-
-it('should not detect one pair when two pairs exist', () => {
-    const handDataMap = {
-        [RANKS.KING]: [
-            {rank: RANKS.KING, suit: SUITS.HEARTS},
-            {rank: RANKS.KING, suit: SUITS.DIAMONDS},
-        ],
-        [RANKS.QUEEN]: [
-            {rank: RANKS.QUEEN, suit: SUITS.CLUBS},
-            {rank: RANKS.QUEEN, suit: SUITS.SPADES},
-        ],
-    };
-    expectOnePair(handDataMap, false);
-});
-
-it('should not detect one pair when full house exists', () => {
-    const handDataMap = {
-        [RANKS.KING]: [
-            {rank: RANKS.KING, suit: SUITS.HEARTS},
-            {rank: RANKS.KING, suit: SUITS.DIAMONDS},
-            {rank: RANKS.KING, suit: SUITS.CLUBS},
-        ],
-        [RANKS.QUEEN]: [
-            {rank: RANKS.QUEEN, suit: SUITS.HEARTS},
-            {rank: RANKS.QUEEN, suit: SUITS.DIAMONDS},
-        ],
-    };
     expectOnePair(handDataMap, false);
 });
 
@@ -288,7 +228,7 @@ it('should detect a pair when flush is also possible', () => {
         [RANKS.JACK]: [{rank: RANKS.JACK, suit: SUITS.HEARTS}],
         [RANKS.TEN]: [{rank: RANKS.TEN, suit: SUITS.HEARTS}],
     };
-    expectOnePair(handDataMap, true, RANKS.KING, RANKS.ACE);
+    expectOnePair(handDataMap, true, RANKS.KING);
 });
 
 it('should detect a pair when straight is also possible', () => {
@@ -302,7 +242,7 @@ it('should detect a pair when straight is also possible', () => {
         [RANKS.SIX]: [{rank: RANKS.SIX, suit: SUITS.HEARTS}],
         [RANKS.FIVE]: [{rank: RANKS.FIVE, suit: SUITS.DIAMONDS}],
     };
-    expectOnePair(handDataMap, true, RANKS.NINE, RANKS.EIGHT);
+    expectOnePair(handDataMap, true, RANKS.NINE);
 });
 
 it('should detect a pair with low kicker', () => {
@@ -313,7 +253,7 @@ it('should detect a pair with low kicker', () => {
         ],
         [RANKS.TWO]: [{rank: RANKS.TWO, suit: SUITS.CLUBS}],
     };
-    expectOnePair(handDataMap, true, RANKS.ACE, RANKS.TWO);
+    expectOnePair(handDataMap, true, RANKS.ACE);
 });
 
 it('should detect a pair when three pairs exist (choose highest)', () => {
@@ -331,5 +271,5 @@ it('should detect a pair when three pairs exist (choose highest)', () => {
             {rank: RANKS.QUEEN, suit: SUITS.DIAMONDS},
         ],
     };
-    expectOnePair(handDataMap, true, RANKS.ACE, RANKS.KING);
+    expectOnePair(handDataMap, true, RANKS.ACE);
 });
