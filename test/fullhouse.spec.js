@@ -204,7 +204,7 @@ it('should detect full house when flush is also possible', () => {
     expectFullHouse(handDataMap, true, RANKS.SIX, RANKS.TWO);
 });
 
-it('should detect full house when straight is also possible', () => {
+it('should detect full house with adjacent cards', () => {
     const handDataMap = {
         [RANKS.SEVEN]: [
             {rank: RANKS.SEVEN, suit: SUITS.HEARTS},
@@ -267,7 +267,7 @@ it('should not detect full house with empty hand data map', () => {
     expectFullHouse(handDataMap, false);
 });
 
-it('should not detect full house when four of a kind present', () => {
+it('should not detect full house when only four of a kind present', () => {
     const handDataMap = {
         [RANKS.EIGHT]: [
             {rank: RANKS.EIGHT, suit: SUITS.HEARTS},
