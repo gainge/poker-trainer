@@ -65,9 +65,9 @@ export class Card {
 
 // Concept of a hand
 export class Hand {
-    constructor(playerName, cards) {
-        this.playerName = playerName;
+    constructor(cards, playerName) {
         this.cards = cards;
+        this.playerName = playerName;
     }
 
     getCards() {
