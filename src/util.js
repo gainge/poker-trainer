@@ -10,6 +10,7 @@ import {
     getOnePairHand,
     getHighCardHand,
 } from './handeval.js';
+import {SUITS} from './model.js';
 
 export function getNewDeck() {
     return shuffleDeck([...BASE_DECK]);
@@ -75,7 +76,7 @@ export function getHandResult(board, hand) {
     // Create hand data map
     // Hand data map is an object where keys are ranks and values are arrays of cards with that rank
     const handDataMap = {};
-    for (const card of [allCards]) {
+    for (const card of allCards) {
         if (!handDataMap[card.rank]) {
             handDataMap[card.rank] = [];
         }
@@ -94,7 +95,6 @@ export function getHandResult(board, hand) {
         getOnePairHand(handDataMap) ??
         getHighCardHand(handDataMap);
 
-    // TODO: sort hand
     return bestHand;
 }
 
@@ -109,4 +109,35 @@ export function evaluateHand(board, hand) {
     // Placeholder for hand evaluation logic
     // This function would return a score or rank for the given hand combined with the board
     return 0;
+}
+
+// Logs cards to console with colors denoting suits (4 color) using ANSI color codes
+export function consoleLogCards(cards) {
+    const getCardColor = (suit) => {
+        switch (suit) {
+            case SUITS.SPADES:
+                return '\x1b[30m'; // Black
+            case SUITS.HEARTS:
+                return '\x1b[31m'; // Red
+            case SUITS.DIAMONDS:
+                return '\x1b[34m'; // Blue
+            case SUITS.CLUBS:
+                return '\x1b[32m'; // Green
+            default:
+                return '\x1b[0m'; // Reset
+        }
+    };
+
+    const cardBackground = '\x1b[47m'; // White background
+    const reset = '\x1b[0m'; // Reset all formatting
+
+    // Print Cards for display
+    let logString = '--- Cards: ';
+    cards.forEach((card) => {
+        const color = getCardColor(card.suit);
+        const cardText = `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
+        logString += `${cardBackground}${color} ${cardText} ${reset} `;
+    });
+
+    console.log(logString.trim());
 }

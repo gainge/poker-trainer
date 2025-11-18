@@ -182,7 +182,7 @@ export const SUIT_CLASS_MAP = {
     [SUITS.SPADES]: 'spades',
 };
 
-export const HAND_RANK_NAMES = {
+export const HAND_TYPE_NAMES = {
     [HAND_TYPE.HIGH_CARD]: 'High Card',
     [HAND_TYPE.ONE_PAIR]: 'Pair',
     [HAND_TYPE.TWO_PAIR]: 'Two Pair',
