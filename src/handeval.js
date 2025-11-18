@@ -26,8 +26,9 @@ import {RANKS_DESCENDING} from './constants.js';
 
 function cardsAreConsecutive(card1, card2) {
     return (
-        Math.abs(RANKS_DESCENDING.indexOf(card1) - RANKS_DESCENDING.indexOf(card2)) === 1 ||
-        Math.abs(RANKS_DESCENDING.indexOf(card1) - RANKS_DESCENDING.indexOf(card2)) === RANKS_DESCENDING.length - 1
+        Math.abs(RANKS_DESCENDING.indexOf(card1.rank) - RANKS_DESCENDING.indexOf(card2.rank)) === 1 ||
+        Math.abs(RANKS_DESCENDING.indexOf(card1.rank) - RANKS_DESCENDING.indexOf(card2.rank)) ===
+            RANKS_DESCENDING.length - 1
     );
 }
 
@@ -42,7 +43,7 @@ export function getStraightFlushHand(handDataMap) {
     for (const rank of [...RANKS_DESCENDING, RANKS.ACE]) {
         const cardsAtRank = handDataMap[rank] ?? [];
         for (const card of cardsAtRank) {
-            potentialStraightFlushes[card.suit].push(card.rank);
+            potentialStraightFlushes[card.suit].push(card);
         }
     }
 
@@ -63,7 +64,7 @@ export function getStraightFlushHand(handDataMap) {
                 consecutiveCount = 1;
             }
             if (consecutiveCount >= 5) {
-                highestRankInStraightFlush = cards[i - 4];
+                highestRankInStraightFlush = cards[i - 4].rank;
                 break;
             }
         }
@@ -227,6 +228,8 @@ export function getTwoPairHand(handDataMap) {
             } else if (kicker === undefined) {
                 kicker = cardsAtRank[0];
             }
+        } else if (cardsAtRank.length > 0 && kicker === undefined) {
+            kicker = cardsAtRank[0];
         }
         if (highPair.length === 2 && lowPair.length === 2 && kicker !== undefined) {
             break;

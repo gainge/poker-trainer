@@ -123,7 +123,7 @@ export function getCardLogString(card) {
 // Logs cards to console with colors denoting suits (4 color) using ANSI color codes
 export function logCards(cards) {
     // Print Cards for display
-    let logString = '--- Cards: ';
+    let logString = 'v    Cards: ';
     cards.forEach((card) => {
         logString += getCardLogString(card) + ' ';
     });

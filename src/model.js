@@ -128,8 +128,7 @@ export class FlushResult extends HandResult {
 
     _compareToSameType(otherHandResult) {
         // For flush, compare highest card
-        // Assumes hands were made from the same board and thus have same suit
-        return this.rank1 - otherHandResult.rank1;
+        return this.compareCardHands(otherHandResult);
     }
 }
 

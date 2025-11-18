@@ -44,6 +44,26 @@ it('should detect royal flush (straight flush with Ace high)', () => {
     expectHandResult(board, handCards, HAND_TYPE.STRAIGHT_FLUSH, RANKS.ACE);
 });
 
+it('should detect King-high straight flush', () => {
+    const board = [
+        new Card(RANKS.KING, SUITS.DIAMONDS),
+        new Card(RANKS.QUEEN, SUITS.DIAMONDS),
+        new Card(RANKS.JACK, SUITS.DIAMONDS),
+    ];
+    const handCards = [new Card(RANKS.TEN, SUITS.DIAMONDS), new Card(RANKS.NINE, SUITS.DIAMONDS)];
+    expectHandResult(board, handCards, HAND_TYPE.STRAIGHT_FLUSH, RANKS.KING);
+});
+
+it('should detect nine-high straight flush', () => {
+    const board = [
+        new Card(RANKS.NINE, SUITS.CLUBS),
+        new Card(RANKS.EIGHT, SUITS.CLUBS),
+        new Card(RANKS.SEVEN, SUITS.CLUBS),
+    ];
+    const handCards = [new Card(RANKS.SIX, SUITS.CLUBS), new Card(RANKS.FIVE, SUITS.CLUBS)];
+    expectHandResult(board, handCards, HAND_TYPE.STRAIGHT_FLUSH, RANKS.NINE);
+});
+
 it('should detect wheel straight flush (A-2-3-4-5 suited)', () => {
     const board = [
         new Card(RANKS.ACE, SUITS.DIAMONDS),
