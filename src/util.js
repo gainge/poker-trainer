@@ -11,6 +11,7 @@ import {
     getHighCardHand,
 } from './handeval.js';
 import {SUITS} from './model.js';
+import {colorize, COLOR} from './log.js';
 
 export function getNewDeck() {
     return shuffleDeck([...BASE_DECK]);
@@ -116,27 +117,24 @@ export function consoleLogCards(cards) {
     const getCardColor = (suit) => {
         switch (suit) {
             case SUITS.SPADES:
-                return '\x1b[30m'; // Black
+                return COLOR.BLACK;
             case SUITS.HEARTS:
-                return '\x1b[31m'; // Red
+                return COLOR.RED;
             case SUITS.DIAMONDS:
-                return '\x1b[34m'; // Blue
+                return COLOR.BLUE;
             case SUITS.CLUBS:
-                return '\x1b[32m'; // Green
+                return COLOR.GREEN;
             default:
-                return '\x1b[0m'; // Reset
+                return null;
         }
     };
-
-    const cardBackground = '\x1b[47m'; // White background
-    const reset = '\x1b[0m'; // Reset all formatting
 
     // Print Cards for display
     let logString = '--- Cards: ';
     cards.forEach((card) => {
-        const color = getCardColor(card.suit);
+        const fgColor = getCardColor(card.suit);
         const cardText = `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
-        logString += `${cardBackground}${color} ${cardText} ${reset} `;
+        logString += colorize(` ${cardText} `, {fg: fgColor, bg: COLOR.WHITE}) + ' ';
     });
 
     console.log(logString.trim());

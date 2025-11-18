@@ -1,22 +1,4 @@
-// Color functions for logging
-function asRed(message) {
-    return `\x1b[31m${message}\x1b[0m`;
-}
-function asGreen(message) {
-    return `\x1b[32m${message}\x1b[0m`;
-}
-function asYellow(message) {
-    return `\x1b[33m${message}\x1b[0m`;
-}
-function asBlue(message) {
-    return `\x1b[34m${message}\x1b[0m`;
-}
-function asMagenta(message) {
-    return `\x1b[35m${message}\x1b[0m`;
-}
-function asCyan(message) {
-    return `\x1b[36m${message}\x1b[0m`;
-}
+import {asRed, asGreen, asYellow, asCyan} from '../src/log.js';
 export function logInfo(message) {
     console.log(asCyan(`INFO: ${message}`));
 }
