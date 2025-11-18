@@ -113,7 +113,7 @@ export function evaluateHand(board, hand) {
 }
 
 // Logs cards to console with colors denoting suits (4 color) using ANSI color codes
-export function consoleLogCards(cards) {
+export function logCards(cards) {
     const getCardColor = (suit) => {
         switch (suit) {
             case SUITS.SPADES:

@@ -1,10 +1,10 @@
-import {getHandResult, consoleLogCards} from '../src/util.js';
+import {getHandResult, logCards} from '../src/util.js';
 import {it, expect} from './testutil.test.js';
 import {Card, Hand, RANKS, SUITS, HAND_TYPE} from '../src/model.js';
 import {SIMPLE_RANK_DISPLAY, HAND_TYPE_NAMES, SUIT_SYMBOLS} from '../src/constants.js';
 
 function expectHandResult(board, handCards, expectedHandType, expectedRank1 = undefined, expectedRank2 = undefined) {
-    consoleLogCards([...board, ...handCards]);
+    logCards([...board, ...handCards]);
     const hand = new Hand(handCards);
     const result = getHandResult(board, hand);
 
