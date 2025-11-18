@@ -1,4 +1,4 @@
-import {RANKS, SUITS, HAND_TYPE} from './model.js';
+import {RANKS, SUITS, HAND_TYPE} from './types.js';
 
 // Let's actually add a more rich card display leveraging the full unicode characters
 export const CARD_BACK = '🂠';
@@ -193,3 +193,19 @@ export const HAND_TYPE_NAMES = {
     [HAND_TYPE.FOUR_OF_A_KIND]: 'Four of a Kind',
     [HAND_TYPE.STRAIGHT_FLUSH]: 'Straight Flush',
 };
+
+export const RANKS_DESCENDING = [
+    RANKS.ACE,
+    RANKS.KING,
+    RANKS.QUEEN,
+    RANKS.JACK,
+    RANKS.TEN,
+    RANKS.NINE,
+    RANKS.EIGHT,
+    RANKS.SEVEN,
+    RANKS.SIX,
+    RANKS.FIVE,
+    RANKS.FOUR,
+    RANKS.THREE,
+    RANKS.TWO,
+];

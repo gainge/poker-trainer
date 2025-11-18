@@ -1,4 +1,4 @@
-import {SUITS} from './model.js';
+import {SUITS} from './types.js';
 import {SIMPLE_RANK_DISPLAY, SUIT_SYMBOLS} from './constants.js';
 
 /**

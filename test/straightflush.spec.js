@@ -1,6 +1,6 @@
 import {getStraightFlushHand} from '../src/handeval.js';
 import {it, expect} from './testutil.test.js';
-import {RANKS, SUITS, HAND_TYPE} from '../src/model.js';
+import {RANKS, SUITS, HAND_TYPE} from '../src/types.js';
 
 /**
  * Test suite for straight flush detection

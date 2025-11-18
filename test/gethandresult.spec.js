@@ -1,7 +1,8 @@
 import {getHandResult} from '../src/util.js';
 import {logCards} from '../src/log.js';
 import {it, expect} from './testutil.test.js';
-import {Card, Hand, RANKS, SUITS, HAND_TYPE} from '../src/model.js';
+import {Card, Hand} from '../src/model.js';
+import {RANKS, SUITS, HAND_TYPE} from '../src/types.js';
 import {SIMPLE_RANK_DISPLAY, HAND_TYPE_NAMES, SUIT_SYMBOLS} from '../src/constants.js';
 
 function expectHandResult(board, handCards, expectedHandType, expectedRank1 = undefined, expectedRank2 = undefined) {

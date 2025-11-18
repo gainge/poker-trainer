@@ -1,6 +1,6 @@
 import {getTwoPairHand} from '../src/handeval.js';
 import {it, expect} from './testutil.test.js';
-import {RANKS, SUITS, HAND_TYPE} from '../src/model.js';
+import {RANKS, SUITS, HAND_TYPE} from '../src/types.js';
 import {SIMPLE_RANK_DISPLAY} from '../src/constants.js';
 
 function expectTwoPair(handDataMap, shouldExist, expectedHighPair = undefined, expectedLowPair = undefined) {

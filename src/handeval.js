@@ -1,9 +1,5 @@
 import {
-    RANKS,
-    SUITS,
-    HAND_TYPE,
     HandResult,
-    RANKS_DESCENDING,
     Card,
     Hand,
     StraightFlushResult,
@@ -16,6 +12,8 @@ import {
     OnePairResult,
     HighCardResult,
 } from './model.js';
+import {RANKS, SUITS} from './types.js';
+import {RANKS_DESCENDING} from './constants.js';
 
 /**
  * Suite of utility functions to evaluate poker hands
