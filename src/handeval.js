@@ -1,4 +1,21 @@
-import {RANKS, SUITS, HAND_TYPE, HandResult, RANKS_DESCENDING, Card, Hand} from './model.js';
+import {
+    RANKS,
+    SUITS,
+    HAND_TYPE,
+    HandResult,
+    RANKS_DESCENDING,
+    Card,
+    Hand,
+    StraightFlushResult,
+    FourOfAKindResult,
+    FullHouseResult,
+    FlushResult,
+    StraightResult,
+    ThreeOfAKindResult,
+    TwoPairResult,
+    OnePairResult,
+    HighCardResult,
+} from './model.js';
 
 /**
  * Suite of utility functions to evaluate poker hands
@@ -54,7 +71,7 @@ export function getStraightFlushHand(handDataMap) {
         }
 
         if (highestRankInStraightFlush !== undefined) {
-            return new HandResult(new Hand(cards.slice(0, 5)), HAND_TYPE.STRAIGHT_FLUSH, highestRankInStraightFlush);
+            return new StraightFlushResult(new Hand(cards.slice(0, 5)), highestRankInStraightFlush);
         }
     }
 
@@ -83,12 +100,7 @@ export function getFourOfAKindHand(handDataMap) {
     }
 
     if (resultCards.length >= 4) {
-        return new HandResult(
-            new Hand(resultCards.slice(0, 5)),
-            HAND_TYPE.FOUR_OF_A_KIND,
-            resultCards[0].rank,
-            resultCards[4]?.rank
-        );
+        return new FourOfAKindResult(new Hand(resultCards.slice(0, 5)), resultCards[0].rank, resultCards[4]?.rank);
     }
     return undefined;
 }
@@ -112,7 +124,7 @@ export function getFullHouseHand(handDataMap) {
 
     if (threeOfAKindRank !== undefined && pairRank !== undefined) {
         const resultCards = [...handDataMap[threeOfAKindRank].slice(0, 3), ...handDataMap[pairRank].slice(0, 2)];
-        return new HandResult(new Hand(resultCards), HAND_TYPE.FULL_HOUSE, threeOfAKindRank, pairRank);
+        return new FullHouseResult(new Hand(resultCards), threeOfAKindRank, pairRank);
     }
 
     // Placeholder for full house detection logic
@@ -143,7 +155,7 @@ export function getFlushHand(handDataMap) {
     for (const suit of suits) {
         if (suitCountMap[suit] >= 5) {
             const flushCards = suitHighCardMap[suit].slice(0, 5);
-            return new HandResult(new Hand(flushCards), HAND_TYPE.FLUSH, flushCards[0].rank);
+            return new FlushResult(new Hand(flushCards), flushCards[0].rank);
         }
     }
 
@@ -167,7 +179,7 @@ export function getStraightHand(handDataMap) {
     }
 
     if (cardsInStraight.length >= 5) {
-        return new HandResult(new Hand(cardsInStraight.slice(0, 5)), HAND_TYPE.STRAIGHT, cardsInStraight[0].rank);
+        return new StraightResult(new Hand(cardsInStraight.slice(0, 5)), cardsInStraight[0].rank);
     }
 
     // Placeholder for straight detection logic
@@ -195,7 +207,7 @@ export function getThreeOfAKindHand(handDataMap) {
         // Add top 2 kickers
         kickerCards[0] && resultCards.push(kickerCards[0]);
         kickerCards[1] && resultCards.push(kickerCards[1]);
-        return new HandResult(new Hand(resultCards.slice(0, 5)), HAND_TYPE.THREE_OF_A_KIND, resultCards[0].rank);
+        return new ThreeOfAKindResult(new Hand(resultCards.slice(0, 5)), resultCards[0].rank);
     }
 
     return undefined;
@@ -228,7 +240,7 @@ export function getTwoPairHand(handDataMap) {
         if (kicker !== undefined) {
             resultCards.push(kicker);
         }
-        return new HandResult(new Hand(resultCards.slice(0, 5)), HAND_TYPE.TWO_PAIR, highPair[0].rank, lowPair[0].rank);
+        return new TwoPairResult(new Hand(resultCards.slice(0, 5)), highPair[0].rank, lowPair[0].rank);
     }
 
     // Placeholder for two pair detection logic
@@ -257,7 +269,7 @@ export function getOnePairHand(handDataMap) {
         kickerCards[0] && resultCards.push(kickerCards[0]);
         kickerCards[1] && resultCards.push(kickerCards[1]);
         kickerCards[2] && resultCards.push(kickerCards[2]);
-        return new HandResult(new Hand(resultCards.slice(0, 5)), HAND_TYPE.ONE_PAIR, resultCards[0].rank);
+        return new OnePairResult(new Hand(resultCards.slice(0, 5)), resultCards[0].rank);
     }
 
     return undefined;
@@ -275,7 +287,7 @@ export function getHighCardHand(handDataMap) {
     }
 
     if (resultCards.length >= 5) {
-        return new HandResult(new Hand(resultCards.slice(0, 5)), HAND_TYPE.HIGH_CARD, resultCards[0].rank);
+        return new HighCardResult(new Hand(resultCards.slice(0, 5)), resultCards[0].rank);
     }
 
     return undefined;
