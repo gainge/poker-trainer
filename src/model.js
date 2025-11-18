@@ -1,4 +1,6 @@
 import {HAND_TYPE} from './types.js';
+import {getCardLogString} from './log.js';
+import {HAND_TYPE_NAMES} from './constants.js';
 
 export class Card {
     constructor(rank, suit) {
@@ -22,6 +24,10 @@ export class Hand {
 
     getCards() {
         return this.cards;
+    }
+
+    toString() {
+        return this.cards.map((card) => getCardLogString(card)).join(' ');
     }
 }
 
@@ -56,6 +62,16 @@ export class HandResult {
     _compareToSameType(otherHandResult) {
         // Further comparison logic can be implemented in subclasses
         return 0;
+    }
+
+    toString() {
+        const overview = `${HAND_TYPE_NAMES[this.handType]} - ${this.hand.toString()}`;
+        const details = this._getDetailsString();
+        return details ? `${overview} (${details})` : overview;
+    }
+
+    _getDetailsString() {
+        return undefined;
     }
 }
 

@@ -1,28 +1,13 @@
 import {it, expect} from './testutil.test.js';
 import {getHandResult} from '../src/util.js';
-import {logCards} from '../src/log.js';
 import {Card, Hand} from '../src/model.js';
 import {RANKS, SUITS, HAND_TYPE} from '../src/types.js';
-import {SIMPLE_RANK_DISPLAY, HAND_TYPE_NAMES, SUIT_SYMBOLS} from '../src/constants.js';
 
 const COMPARISON_RESULT = {
     BEATS: 'beats',
     LOSES_TO: 'loses to',
     TIES: 'ties',
 };
-
-// Utility functions for hand comparison tests
-function describeHandResult(handResult) {
-    const handTypeName = HAND_TYPE_NAMES[handResult.handType] || 'Unknown Hand Type';
-    const rank1Name = SIMPLE_RANK_DISPLAY[handResult.rank1] || 'Unknown Rank';
-    const rank2Name = handResult.rank2 ? SIMPLE_RANK_DISPLAY[handResult.rank2] : undefined;
-    let description = `${handTypeName} (High Card: ${rank1Name}`;
-    if (rank2Name) {
-        description += `, Second Card: ${rank2Name}`;
-    }
-    description += ')';
-    return description;
-}
 
 function comparisonExpectationString(expectedComparison, hand1Desc, hand2Desc) {
     if (expectedComparison === COMPARISON_RESULT.BEATS) {
@@ -36,30 +21,21 @@ function comparisonExpectationString(expectedComparison, hand1Desc, hand2Desc) {
     }
 }
 
-function expectHandComparison(hand1, hand2, expectedComparison) {
+function expectHandComparison(hand1, expectedComparison, hand2) {
     const result1 = getHandResult([], new Hand(hand1, 'Player 1'));
     const result2 = getHandResult([], new Hand(hand2, 'Player 2'));
 
     const comparison = result1.compareTo(result2);
     if (expectedComparison === COMPARISON_RESULT.BEATS) {
-        expect(
-            comparison > 0,
-            `Expected Hand 1 to be greater than Hand 2: ${describeHandResult(result1)} vs ${describeHandResult(
-                result2
-            )}`
-        );
+        expect(comparison > 0, `Expected Hand 1 to beat Hand 2: ${result1.toString()} vs ${result2.toString()}`);
     } else if (expectedComparison === COMPARISON_RESULT.LOSES_TO) {
-        expect(
-            comparison < 0,
-            `Expected Hand 1 to be less than Hand 2: ${describeHandResult(result1)} vs ${describeHandResult(result2)}`
-        );
+        expect(comparison < 0, `Expected Hand 1 to lose to Hand 2: ${result1.toString()} vs ${result2.toString()}`);
     } else if (expectedComparison === COMPARISON_RESULT.TIES) {
-        expect(
-            comparison === 0,
-            `Expected Hand 1 to be equal to Hand 2: ${describeHandResult(result1)} vs ${describeHandResult(result2)}`
-        );
+        expect(comparison === 0, `Expected Hand 1 to tie Hand 2: ${result1.toString()} vs ${result2.toString()}`);
     } else {
-        throw new Error('Invalid expectedComparison value. Use "greater", "less", or "equal".');
+        throw new Error(
+            `Invalid expectedComparison value. Use ${COMPARISON_RESULT.BEATS}, ${COMPARISON_RESULT.LOSES_TO}, or ${COMPARISON_RESULT.TIES}.`
+        );
     }
 }
 
@@ -80,10 +56,5 @@ it('compares two Straight Flush hands correctly', () => {
         new Card(RANKS.KING, SUITS.SPADES),
     ];
 
-    const result1 = getHandResult(hand1);
-    const result2 = getHandResult(hand2);
-
-    expect(result1.handType === HAND_TYPE.STRAIGHT_FLUSH, 'Hand 1 should be a Straight Flush');
-    expect(result2.handType === HAND_TYPE.STRAIGHT_FLUSH, 'Hand 2 should be a Straight Flush');
-    expect(result1.compareTo(result2) > 0, 'Hand 1 should beat Hand 2');
+    expectHandComparison(hand1, COMPARISON_RESULT.BEATS, hand2);
 });
