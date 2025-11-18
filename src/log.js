@@ -1,3 +1,6 @@
+import {SUITS} from './model.js';
+import {SIMPLE_RANK_DISPLAY, SUIT_SYMBOLS} from './constants.js';
+
 /**
  * ANSI color utilities for terminal output
  * Provides consistent coloring across the codebase
@@ -103,4 +106,27 @@ export function colorize(text, {fg, bg} = {}) {
     result += ANSI.RESET;
 
     return result;
+}
+
+export function getCardLogString(card) {
+    const suitColors = {
+        [SUITS.HEARTS]: COLOR.RED,
+        [SUITS.DIAMONDS]: COLOR.BLUE,
+        [SUITS.CLUBS]: COLOR.GREEN,
+        [SUITS.SPADES]: COLOR.BLACK,
+    };
+
+    const cardText = `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
+    return colorize(` ${cardText} `, {fg: suitColors[card.suit], bg: COLOR.WHITE});
+}
+
+// Logs cards to console with colors denoting suits (4 color) using ANSI color codes
+export function logCards(cards) {
+    // Print Cards for display
+    let logString = '--- Cards: ';
+    cards.forEach((card) => {
+        logString += getCardLogString(card) + ' ';
+    });
+
+    console.log(logString.trim());
 }

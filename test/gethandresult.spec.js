@@ -1,4 +1,5 @@
-import {getHandResult, logCards} from '../src/util.js';
+import {getHandResult} from '../src/util.js';
+import {logCards} from '../src/log.js';
 import {it, expect} from './testutil.test.js';
 import {Card, Hand, RANKS, SUITS, HAND_TYPE} from '../src/model.js';
 import {SIMPLE_RANK_DISPLAY, HAND_TYPE_NAMES, SUIT_SYMBOLS} from '../src/constants.js';

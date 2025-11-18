@@ -10,8 +10,6 @@ import {
     getOnePairHand,
     getHighCardHand,
 } from './handeval.js';
-import {SUITS} from './model.js';
-import {colorize, COLOR} from './log.js';
 
 export function getNewDeck() {
     return shuffleDeck([...BASE_DECK]);
@@ -72,7 +70,8 @@ export function combinations(items, k) {
 
 export function getHandResult(board, hand) {
     // need to construct the best had of 5 cards from the 7 available (5 board + 2 hand)
-    const allCards = [...board, ...hand.getCards()];
+    const handCards = hand?.getCards() ?? [];
+    const allCards = [...board, ...handCards];
 
     // Create hand data map
     // Hand data map is an object where keys are ranks and values are arrays of cards with that rank
@@ -110,32 +109,4 @@ export function evaluateHand(board, hand) {
     // Placeholder for hand evaluation logic
     // This function would return a score or rank for the given hand combined with the board
     return 0;
-}
-
-// Logs cards to console with colors denoting suits (4 color) using ANSI color codes
-export function logCards(cards) {
-    const getCardColor = (suit) => {
-        switch (suit) {
-            case SUITS.SPADES:
-                return COLOR.BLACK;
-            case SUITS.HEARTS:
-                return COLOR.RED;
-            case SUITS.DIAMONDS:
-                return COLOR.BLUE;
-            case SUITS.CLUBS:
-                return COLOR.GREEN;
-            default:
-                return null;
-        }
-    };
-
-    // Print Cards for display
-    let logString = '--- Cards: ';
-    cards.forEach((card) => {
-        const fgColor = getCardColor(card.suit);
-        const cardText = `${SIMPLE_RANK_DISPLAY[card.rank]}${SUIT_SYMBOLS[card.suit]}`;
-        logString += colorize(` ${cardText} `, {fg: fgColor, bg: COLOR.WHITE}) + ' ';
-    });
-
-    console.log(logString.trim());
 }

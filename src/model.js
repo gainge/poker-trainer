@@ -115,7 +115,7 @@ export class StraightFlushResult extends HandResult {
     }
 
     _compareToSameType(otherHandResult) {
-        this.rank1 - otherHandResult.rank1;
+        return this.rank1 - otherHandResult.rank1;
     }
 }
 
